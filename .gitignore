@@ -11,3 +11,4 @@ useraudio
 *.wav
 discord-audio-logs
 tmp
+ecosystem.config.js
