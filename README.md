@@ -288,3 +288,59 @@ Format: `provider/model-name`
 Or use these Discord commands to change settings per channel/session:
 - `/model` - Select a different AI model
 - `/agent` - Select a different agent (if you have multiple agents configured in your project)
+
+## Environment Variables
+
+Kimaki supports configuration via environment variables. Copy `.env.example` to `.env` and fill in your values.
+
+### Required Variables
+
+| Variable | Description | How to Get |
+|-----------|---------------|--------------|
+| `KIMAKI_BOT_TOKEN` | Discord bot token for authentication | https://discord.com/developers/applications → Create App → Bot → Reset Token |
+
+### Optional Variables
+
+| Variable | Description | How to Get |
+|-----------|---------------|--------------|
+| `GEMINI_API_KEY` | Google Gemini API key for voice features | https://aistudio.google.com/apikey |
+| `OPENAI_API_KEY` | OpenAI API key (alternative AI provider) | https://platform.openai.com/api-keys |
+| `OPENCODE_API_URL` | Custom OpenCode server URL (advanced) | Default: uses local OpenCode CLI |
+| `DEBUG` | Enable verbose logging for troubleshooting | Set to `1` to enable |
+
+### Using .env File
+
+```bash
+# 1. Copy the example file
+cp .env.example .env
+
+# 2. Edit .env with your actual values
+nano .env  # or use your preferred editor
+
+# 3. Run Kimaki
+bun --env-file .env discord/src/cli.ts
+
+# Or with pnpm (automatically uses .env file)
+pnpm dev
+```
+
+### Docker Usage
+
+When using Docker, pass environment variables via `--env-file`:
+
+```bash
+docker run -it --env-file .env kimaki:latest
+```
+
+Or create a `docker-compose.yml`:
+
+```yaml
+version: '3.8'
+services:
+  discord-bot:
+    image: kimaki:latest
+    env_file: .env
+    volumes:
+      - ./projects:/workspace
+      - ~/.kimaki:/data
+```
