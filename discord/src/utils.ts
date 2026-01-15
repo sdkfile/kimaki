@@ -84,7 +84,10 @@ export function isAbortError(
 
 const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' })
 
-const TIME_DIVISIONS: Array<{ amount: number; name: Intl.RelativeTimeFormatUnit }> = [
+const TIME_DIVISIONS: Array<{
+  amount: number
+  name: Intl.RelativeTimeFormatUnit
+}> = [
   { amount: 60, name: 'seconds' },
   { amount: 60, name: 'minutes' },
   { amount: 24, name: 'hours' },
@@ -125,4 +128,23 @@ export function abbreviatePath(fullPath: string): string {
     return '~' + fullPath.slice(home.length)
   }
   return fullPath
+}
+
+/**
+ * Sanitizes a command name to be Discord slash command compliant.
+ * Discord only allows: lowercase letters (a-z), numbers (0-9), hyphens (-), and underscores (_).
+ *
+ * @param original - The original command name that may contain invalid characters
+ * @returns A sanitized command name that complies with Discord's slash command naming rules
+ *
+ * @example
+ * sanitizeSlashCommandName('websearch:web_search') // returns 'websearch_web_search'
+ * sanitizeSlashCommandName('WebSearch:Query') // returns 'websearch_query'
+ * sanitizeSlashCommandName('my command') // returns 'my_command'
+ */
+export function sanitizeSlashCommandName(original: string): string {
+  return original
+    .trim()
+    .toLowerCase()
+    .replace(/[:\s]+/g, '_')
 }
